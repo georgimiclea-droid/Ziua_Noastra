@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nunta Noastră - Ghid Locații</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        champagne: '#FDFBF7',
+                        gold: '#D4AF37',
+                        roseGold: '#B76E79',
+                        darkCharcoal: '#2C2A29',
+                        warmGray: '#8C857B',
+                        cardBg: '#FFFFFF',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            font-family: 'Montserrat', sans-serif;
+            color: #2C2A29;
+        }
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #D4AF37 0%, #F3E5AB 50%, #B76E79 100%);
+        }
+        .gold-border {
+            border-image: linear-gradient(to right, #D4AF37, #B76E79) 1;
+        }
+        .shadow-soft {
+            box-shadow: 0 10px 30px -5px rgba(212, 175, 55, 0.12), 0 4px 15px -2px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-gold/20 selection:text-darkCharcoal pb-12">
+
+    <!-- Top Admin / Edit Controls Bar -->
+    <header class="w-full bg-white/80 backdrop-blur-md border-b border-gold/20 sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center text-sm">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-[#D4AF37] fa-heart text-gold"></i>
+                <span class="font-medium text-xs sm:text-sm tracking-wide text-darkCharcoal/80">Ghid Locații Nuntă</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="toggleCustomizer()" class="px-3 py-1.5 rounded-full border border-gold/40 bg-champagne hover:bg-gold/10 text-darkCharcoal transition flex items-center gap-1.5 text-xs sm:text-sm font-medium">
+                    <i class="fa-solid fa-[#D4AF37] fa-pen-to-square"></i> Editare Date
+                </button>
+                <button onclick="toggleQRModal()" class="px-3 py-1.5 rounded-full bg-gold text-white hover:bg-gold/90 shadow-sm transition flex items-center gap-1.5 text-xs sm:text-sm font-medium">
+                    <i class="fa-solid fa-qrcode"></i> Generează QR Code
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Drawer: Customizer Panel -->
+    <div id="customizerDrawer" class="hidden max-w-4xl mx-auto w-full px-4 pt-4 transition-all duration-300">
+        <div class="bg-white rounded-2xl p-5 border border-gold/30 shadow-soft mb-6">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-100">
+                <h3 class="font-serif text-xl font-bold text-darkCharcoal flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-gold"></i> Personalizează Informațiile
+                </h3>
+                <button onclick="toggleCustomizer()" class="text-gray-400 hover:text-darkCharcoal">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <form id="editForm" onsubmit="event.preventDefault(); updateContent();" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                <!-- Names -->
+                <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 bg-champagne p-3 rounded-xl border border-gold/20">
+                    <div>
+                        <label class="block font-medium mb-1">Numele Mirilor</label>
+                        <input type="text" id="inputCoupleNames" value="Andrei & Elena" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gold outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Data Evenimentului</label>
+                        <input type="text" id="inputWeddingDate" value="15 August 2026" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gold outline-none">
+                    </div>
+                </div>
+
+                <!-- 1. Plecare -->
+                <div class="space-y-2 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                    <h4 class="font-semibold text-gold flex items-center gap-1.5"><i class="fa-solid fa-house"></i> 1. Plecarea Mirilor</h4>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-0.5">Detalii / Ora</label>
+                        <input type="text" id="inputHomeTime" value="Ora 12:00 - Casa Părintească" class="w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-0.5">Adresă Exactă (pt. Hartă)</label>
+                        <input type="text" id="inputHomeAddress" value="Strada Nuferilor 12, București" class="w-full p-2 border rounded-lg">
+                    </div>
+                </div>
+
+                <!-- 2. Biserica -->
+                <div class="space-y-2 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                    <h4 class="font-semibold text-gold flex items-center gap-1.5"><i class="fa-solid fa-church"></i> 2. Cununia Religioasă</h4>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-0.5">Nume Biserică & Ora</label>
+                        <input type="text" id="inputChurchName" value="Biserica Sfântul Nicolae - Ora 15:00" class="w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-0.5">Adresă Exactă (pt. Hartă)</label>
+                        <input type="text" id="inputChurchAddress" value="Bulevardul Unirii 45, București" class="w-full p-2 border rounded-lg">
+                    </div>
+                </div>
+
+                <!-- 3. Petrecere -->
+                <div class="space-y-2 p-3 bg-gray-50 rounded-xl border border-gray-100 md:col-span-2">
+                    <h4 class="font-semibold text-gold flex items-center gap-1.5"><i class="fa-solid fa-[#D4AF37] fa-glass-cheers"></i> 3. Sala de Petrecere</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-0.5">Nume Sala / Venue & Ora</label>
+                            <input type="text" id="inputPartyName" value="Grand Ballroom Palace - Ora 18:30" class="w-full p-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-0.5">Adresă Exactă (pt. Hartă)</label>
+                            <input type="text" id="inputPartyAddress" value="Calea Victoriei 120, București" class="w-full p-2 border rounded-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 flex justify-end gap-2 pt-2">
+                    <button type="submit" class="px-5 py-2 bg-gold text-white rounded-xl hover:bg-gold/90 font-medium shadow-md transition">
+                        <i class="fa-solid fa-check mr-1"></i> Salvează Modificările
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto px-4 py-8 sm:py-12 w-full flex-grow">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-10 space-y-3">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gold/10 text-gold mb-2">
+                <i class="fa-solid fa-rings-wedding text-2xl"></i>
+            </div>
+            <h1 class="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-darkCharcoal" id="displayCoupleNames">
+                Andrei & Elena
+            </h1>
+            <p class="text-xs uppercase tracking-widest text-gold font-semibold" id="displayWeddingDate">
+                15 August 2026
+            </p>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto my-3"></div>
+            <p class="text-sm sm:text-base text-warmGray max-w-lg mx-auto font-light leading-relaxed">
+                Locațiile evenimentului - Alegeți unde doriți să ajungeți și deschideți traseul direct în <strong>Google Maps</strong> sau <strong>Waze</strong>.
+            </p>
+        </div>
+
+        <!-- Location Cards Stack -->
+        <div class="space-y-6">
+
+            <!-- Card 1: Plecarea Mirilor -->
+            <div class="bg-white rounded-2xl p-6 border border-gold/20 shadow-soft hover:shadow-lg transition duration-300 relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-gold to-roseGold"></div>
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-champagne text-gold border border-gold/20">
+                            Etapa 1
+                        </span>
+                        <h2 class="font-serif text-2xl font-bold text-darkCharcoal pt-1">Plecarea Mirilor</h2>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-gold/5 flex items-center justify-center text-gold group-hover:scale-110 transition">
+                        <i class="fa-solid fa-house text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="mt-4 space-y-2 text-sm text-darkCharcoal/80">
+                    <div class="flex items-center gap-2 text-gold font-medium">
+                        <i class="fa-regular fa-clock w-4"></i>
+                        <span id="displayHomeTime">Ora 12:00 - Casa Părintească</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-location-dot w-4 mt-1 text-warmGray"></i>
+                        <span id="displayHomeAddress" class="text-warmGray">Strada Nuferilor 12, București</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <a id="homeGmapsBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
+                        <i class="fa-solid fa-map-location-dot text-emerald-600 group-hover/btn:text-white transition"></i> Google Maps
+                    </a>
+                    <a id="homeWazeBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
+                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> Waze
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: Biserica -->
+            <div class="bg-white rounded-2xl p-6 border border-gold/20 shadow-soft hover:shadow-lg transition duration-300 relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-gold to-roseGold"></div>
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-champagne text-gold border border-gold/20">
+                            Etapa 2
+                        </span>
+                        <h2 class="font-serif text-2xl font-bold text-darkCharcoal pt-1">Cununia Religioasă</h2>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-gold/5 flex items-center justify-center text-gold group-hover:scale-110 transition">
+                        <i class="fa-solid fa-church text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="mt-4 space-y-2 text-sm text-darkCharcoal/80">
+                    <div class="flex items-center gap-2 text-gold font-medium">
+                        <i class="fa-regular fa-clock w-4"></i>
+                        <span id="displayChurchName">Biserica Sfântul Nicolae - Ora 15:00</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-location-dot w-4 mt-1 text-warmGray"></i>
+                        <span id="displayChurchAddress" class="text-warmGray">Bulevardul Unirii 45, București</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <a id="churchGmapsBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
+                        <i class="fa-solid fa-map-location-dot text-emerald-600 group-hover/btn:text-white transition"></i> Google Maps
+                    </a>
+                    <a id="churchWazeBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
+                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> Waze
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: Sala de Petrecere -->
+            <div class="bg-white rounded-2xl p-6 border border-gold/20 shadow-soft hover:shadow-lg transition duration-300 relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-gold to-roseGold"></div>
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-champagne text-gold border border-gold/20">
+                            Etapa 3
+                        </span>
+                        <h2 class="font-serif text-2xl font-bold text-darkCharcoal pt-1">Petrecerea</h2>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-gold/5 flex items-center justify-center text-gold group-hover:scale-110 transition">
+                        <i class="fa-solid fa-champagne-glasses text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="mt-4 space-y-2 text-sm text-darkCharcoal/80">
+                    <div class="flex items-center gap-2 text-gold font-medium">
+                        <i class="fa-regular fa-clock w-4"></i>
+                        <span id="displayPartyName">Grand Ballroom Palace - Ora 18:30</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-location-dot w-4 mt-1 text-warmGray"></i>
+                        <span id="displayPartyAddress" class="text-warmGray">Calea Victoriei 120, București</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <a id="partyGmapsBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
+                        <i class="fa-solid fa-map-location-dot text-emerald-600 group-hover/btn:text-white transition"></i> Google Maps
+                    </a>
+                    <a id="partyWazeBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
+                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> Waze
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Modal: QR Code Generator -->
+    <div id="qrModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-gold/30 text-center relative">
+            <button onclick="toggleQRModal()" class="absolute top-4 right-4 text-gray-400 hover:text-darkCharcoal">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 class="font-serif text-2xl font-bold text-darkCharcoal mb-1">Codul tău QR</h3>
+            <p class="text-xs text-warmGray mb-6">Scanați cu telefonul mobil pentru a deschide această pagină de locații.</p>
+
+            <!-- QR Container -->
+            <div class="bg-champagne p-4 rounded-2xl border border-gold/20 inline-block mb-6 shadow-inner">
+                <div id="qrcode" class="flex justify-center"></div>
+            </div>
+
+            <p class="text-xs text-gray-400 mb-6 px-4">
+                Puteți descărca imaginea de mai sus și să o adăugați pe invitațiile tipărite.
+            </p>
+
+            <div class="flex gap-3">
+                <button onclick="downloadQR()" class="flex-1 py-3 bg-gold text-white rounded-xl font-medium shadow-md hover:bg-gold/90 transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-download"></i> Descarcă Cod QR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-warmGray py-6">
+        <p class="font-serif text-sm text-gold italic mb-1">Vă așteptăm cu drag!</p>
+        <p>© Nunta Noastră • Ghid de Navigare Interactiv</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        let qrCodeObj = null;
+
+        function toggleCustomizer() {
+            const drawer = document.getElementById('customizerDrawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function toggleQRModal() {
+            const modal = document.getElementById('qrModal');
+            modal.classList.toggle('hidden');
+            
+            if (!modal.classList.contains('hidden')) {
+                generateQRCode();
+            }
+        }
+
+        function buildMapsUrl(address) {
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+        }
+
+        function buildWazeUrl(address) {
+            return `https://waze.com/ul?q=${encodeURIComponent(address)}&navigate=yes`;
+        }
+
+        function updateContent() {
+            // Retrieve inputs
+            const coupleNames = document.getElementById('inputCoupleNames').value;
+            const weddingDate = document.getElementById('inputWeddingDate').value;
+
+            const homeTime = document.getElementById('inputHomeTime').value;
+            const homeAddress = document.getElementById('inputHomeAddress').value;
+
+            const churchName = document.getElementById('inputChurchName').value;
+            const churchAddress = document.getElementById('inputChurchAddress').value;
+
+            const partyName = document.getElementById('inputPartyName').value;
+            const partyAddress = document.getElementById('inputPartyAddress').value;
+
+            // Update UI text
+            document.getElementById('displayCoupleNames').innerText = coupleNames;
+            document.getElementById('displayWeddingDate').innerText = weddingDate;
+
+            document.getElementById('displayHomeTime').innerText = homeTime;
+            document.getElementById('displayHomeAddress').innerText = homeAddress;
+
+            document.getElementById('displayChurchName').innerText = churchName;
+            document.getElementById('displayChurchAddress').innerText = churchAddress;
+
+            document.getElementById('displayPartyName').innerText = partyName;
+            document.getElementById('displayPartyAddress').innerText = partyAddress;
+
+            // Update Buttons Href
+            document.getElementById('homeGmapsBtn').href = buildMapsUrl(homeAddress);
+            document.getElementById('homeWazeBtn').href = buildWazeUrl(homeAddress);
+
+            document.getElementById('churchGmapsBtn').href = buildMapsUrl(churchAddress);
+            document.getElementById('churchWazeBtn').href = buildWazeUrl(churchAddress);
+
+            document.getElementById('partyGmapsBtn').href = buildMapsUrl(partyAddress);
+            document.getElementById('partyWazeBtn').href = buildWazeUrl(partyAddress);
+        }
+
+        function generateQRCode() {
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = ''; // Clear previous
+
+            const currentUrl = window.location.href;
+
+            qrCodeObj = new QRCode(qrContainer, {
+                text: currentUrl,
+                width: 180,
+                height: 180,
+                colorDark : "#2C2A29",
+                colorLight : "#FFFFFF",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        function downloadQR() {
+            const qrCanvas = document.querySelector('#qrcode canvas');
+            const qrImg = document.querySelector('#qrcode img');
+            
+            let imageURI = '';
+            if (qrCanvas) {
+                imageURI = qrCanvas.toDataURL("image/png");
+            } else if (qrImg) {
+                imageURI = qrImg.src;
+            }
+
+            if (imageURI) {
+                const link = document.createElement('a');
+                link.download = 'QR_Cod_Locatii_Nunta.png';
+                link.href = imageURI;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        // Initialize URLs on load
+        window.onload = function() {
+            updateContent();
+        };
+    </script>
+</body>
+</html>
