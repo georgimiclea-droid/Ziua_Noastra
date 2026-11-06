@@ -59,18 +59,10 @@
 
     <!-- Top Admin / Edit Controls Bar -->
     <header class="w-full bg-white/80 backdrop-blur-md border-b border-gold/20 sticky top-0 z-40">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center text-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-center items-center text-sm">
             <div class="flex items-center space-x-2">
                 <i class="fa-solid fa-[#D4AF37] fa-heart text-gold"></i>
-                <span class="font-medium text-xs sm:text-sm tracking-wide text-darkCharcoal/80">Ghid Locații Nuntă</span>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="toggleCustomizer()" class="px-3 py-1.5 rounded-full border border-gold/40 bg-champagne hover:bg-gold/10 text-darkCharcoal transition flex items-center gap-1.5 text-xs sm:text-sm font-medium">
-                    <i class="fa-solid fa-[#D4AF37] fa-pen-to-square"></i> Editare Date
-                </button>
-                <button onclick="toggleQRModal()" class="px-3 py-1.5 rounded-full bg-gold text-white hover:bg-gold/90 shadow-sm transition flex items-center gap-1.5 text-xs sm:text-sm font-medium">
-                    <i class="fa-solid fa-qrcode"></i> Generează QR Code
-                </button>
+                <span class="block font-medium mb-1">Ghid Locații Nuntă</span>
             </div>
         </div>
     </header>
@@ -92,11 +84,11 @@
                 <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 bg-champagne p-3 rounded-xl border border-gold/20">
                     <div>
                         <label class="block font-medium mb-1">Numele Mirilor</label>
-                        <input type="text" id="inputCoupleNames" value="Andrei & Elena" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gold outline-none">
+                        <input type="text" id="inputCoupleNames" value="Georgi & Andrei" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gold outline-none">
                     </div>
                     <div>
                         <label class="block font-medium mb-1">Data Evenimentului</label>
-                        <input type="text" id="inputWeddingDate" value="15 August 2026" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gold outline-none">
+                        <input type="text" id="inputWeddingDate" value="12 Iunie 2027" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gold outline-none">
                     </div>
                 </div>
 
@@ -105,11 +97,11 @@
                     <h4 class="font-semibold text-gold flex items-center gap-1.5"><i class="fa-solid fa-house"></i> 1. Plecarea Mirilor</h4>
                     <div>
                         <label class="block text-xs text-gray-500 mb-0.5">Detalii / Ora</label>
-                        <input type="text" id="inputHomeTime" value="Ora 12:00 - Casa Părintească" class="w-full p-2 border rounded-lg">
+                        <input type="text" id="inputHomeTime" value="Ora 15:30 — Castle Transylvania" class="w-full p-2 border rounded-lg">
                     </div>
                     <div>
                         <label class="block text-xs text-gray-500 mb-0.5">Adresă Exactă (pt. Hartă)</label>
-                        <input type="text" id="inputHomeAddress" value="Strada Nuferilor 12, București" class="w-full p-2 border rounded-lg">
+                        <input type="text" id="inputHomeAddress" value="Castle Transylvania, Strada Vlădeasa 4, 510001 Alba Iulia" class="w-full p-2 border rounded-lg">
                     </div>
                 </div>
 
@@ -118,11 +110,11 @@
                     <h4 class="font-semibold text-gold flex items-center gap-1.5"><i class="fa-solid fa-church"></i> 2. Cununia Religioasă</h4>
                     <div>
                         <label class="block text-xs text-gray-500 mb-0.5">Nume Biserică & Ora</label>
-                        <input type="text" id="inputChurchName" value="Biserica Sfântul Nicolae - Ora 15:00" class="w-full p-2 border rounded-lg">
+                        <input type="text" id="inputChurchName" value="Ora 16:00 — Biserica Sf.Treime" class="w-full p-2 border rounded-lg">
                     </div>
                     <div>
                         <label class="block text-xs text-gray-500 mb-0.5">Adresă Exactă (pt. Hartă)</label>
-                        <input type="text" id="inputChurchAddress" value="Bulevardul Unirii 45, București" class="w-full p-2 border rounded-lg">
+                        <input type="text" id="inputChurchAddress" value="Biserica Sf.Treime, Strada Clujului, 515900 Teiuș" class="w-full p-2 border rounded-lg">
                     </div>
                 </div>
 
@@ -132,20 +124,15 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs text-gray-500 mb-0.5">Nume Sala / Venue & Ora</label>
-                            <input type="text" id="inputPartyName" value="Grand Ballroom Palace - Ora 18:30" class="w-full p-2 border rounded-lg">
+                            <input type="text" id="inputPartyName" value="Ora 18:00 — Ballroom Artemis" class="w-full p-2 border rounded-lg">
                         </div>
                         <div>
                             <label class="block text-xs text-gray-500 mb-0.5">Adresă Exactă (pt. Hartă)</label>
-                            <input type="text" id="inputPartyAddress" value="Calea Victoriei 120, București" class="w-full p-2 border rounded-lg">
+                            <input type="text" id="inputPartyAddress" value="Hanul dintre Sălcii, DN1 4, Alba Iulia" class="w-full p-2 border rounded-lg">
                         </div>
                     </div>
                 </div>
 
-                <div class="md:col-span-2 flex justify-end gap-2 pt-2">
-                    <button type="submit" class="px-5 py-2 bg-gold text-white rounded-xl hover:bg-gold/90 font-medium shadow-md transition">
-                        <i class="fa-solid fa-check mr-1"></i> Salvează Modificările
-                    </button>
-                </div>
             </form>
         </div>
     </div>
@@ -159,14 +146,17 @@
                 <i class="fa-solid fa-rings-wedding text-2xl"></i>
             </div>
             <h1 class="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-darkCharcoal" id="displayCoupleNames">
-                Andrei & Elena
+                Georgi & Andrei
             </h1>
             <p class="text-xs uppercase tracking-widest text-gold font-semibold" id="displayWeddingDate">
-                15 August 2026
+                12 Iunie 2027
             </p>
             <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto my-3"></div>
             <p class="text-sm sm:text-base text-warmGray max-w-lg mx-auto font-light leading-relaxed">
                 Locațiile evenimentului - Alegeți unde doriți să ajungeți și deschideți traseul direct în <strong>Google Maps</strong> sau <strong>Waze</strong>.
+            </p>
+			<p class="font-serif text-lg text-gold italic mb-1">
+                Vă așteptăm cu drag la nunta noastră!
             </p>
         </div>
 
@@ -191,11 +181,11 @@
                 <div class="mt-4 space-y-2 text-sm text-darkCharcoal/80">
                     <div class="flex items-center gap-2 text-gold font-medium">
                         <i class="fa-regular fa-clock w-4"></i>
-                        <span id="displayHomeTime">Ora 12:00 - Casa Părintească</span>
+                        <span id="displayHomeTime">Ora 15:30 — Castle Transylvania</span>
                     </div>
                     <div class="flex items-start gap-2">
                         <i class="fa-solid fa-location-dot w-4 mt-1 text-warmGray"></i>
-                        <span id="displayHomeAddress" class="text-warmGray">Strada Nuferilor 12, București</span>
+                        <span id="displayHomeAddress" class="text-warmGray">Castle Transylvania, Strada Vlădeasa 4, 510001 Alba Iulia</span>
                     </div>
                 </div>
 
@@ -205,7 +195,7 @@
                         <i class="fa-solid fa-map-location-dot text-emerald-600 group-hover/btn:text-white transition"></i> Google Maps
                     </a>
                     <a id="homeWazeBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
-                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> Waze
+                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> 🚗 Waze
                     </a>
                 </div>
             </div>
@@ -228,11 +218,11 @@
                 <div class="mt-4 space-y-2 text-sm text-darkCharcoal/80">
                     <div class="flex items-center gap-2 text-gold font-medium">
                         <i class="fa-regular fa-clock w-4"></i>
-                        <span id="displayChurchName">Biserica Sfântul Nicolae - Ora 15:00</span>
+                        <span id="displayChurchName">Ora 16:00 — Biserica Sf.Treime0</span>
                     </div>
                     <div class="flex items-start gap-2">
                         <i class="fa-solid fa-location-dot w-4 mt-1 text-warmGray"></i>
-                        <span id="displayChurchAddress" class="text-warmGray">Bulevardul Unirii 45, București</span>
+                        <span id="displayChurchAddress" class="text-warmGray">Biserica Sf.Treime, Strada Clujului, 515900 Teiuș</span>
                     </div>
                 </div>
 
@@ -242,7 +232,7 @@
                         <i class="fa-solid fa-map-location-dot text-emerald-600 group-hover/btn:text-white transition"></i> Google Maps
                     </a>
                     <a id="churchWazeBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
-                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> Waze
+                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> 🚗 Waze
                     </a>
                 </div>
             </div>
@@ -265,11 +255,11 @@
                 <div class="mt-4 space-y-2 text-sm text-darkCharcoal/80">
                     <div class="flex items-center gap-2 text-gold font-medium">
                         <i class="fa-regular fa-clock w-4"></i>
-                        <span id="displayPartyName">Grand Ballroom Palace - Ora 18:30</span>
+                        <span id="displayPartyName">Ora 18:00 — Ballroom Artemis</span>
                     </div>
                     <div class="flex items-start gap-2">
                         <i class="fa-solid fa-location-dot w-4 mt-1 text-warmGray"></i>
-                        <span id="displayPartyAddress" class="text-warmGray">Calea Victoriei 120, București</span>
+                        <span id="displayPartyAddress" class="text-warmGray">Hanul dintre Sălcii, DN1 4, Alba Iulia</span>
                     </div>
                 </div>
 
@@ -279,7 +269,7 @@
                         <i class="fa-solid fa-map-location-dot text-emerald-600 group-hover/btn:text-white transition"></i> Google Maps
                     </a>
                     <a id="partyWazeBtn" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-200 text-darkCharcoal hover:bg-gold hover:text-white hover:border-gold transition text-xs sm:text-sm font-medium group/btn shadow-sm">
-                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> Waze
+                        <i class="fa-solid fa-navigation text-sky-500 group-hover/btn:text-white transition"></i> 🚗 Waze
                     </a>
                 </div>
             </div>
@@ -287,33 +277,6 @@
         </div>
 
     </main>
-
-    <!-- Modal: QR Code Generator -->
-    <div id="qrModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-gold/30 text-center relative">
-            <button onclick="toggleQRModal()" class="absolute top-4 right-4 text-gray-400 hover:text-darkCharcoal">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-
-            <h3 class="font-serif text-2xl font-bold text-darkCharcoal mb-1">Codul tău QR</h3>
-            <p class="text-xs text-warmGray mb-6">Scanați cu telefonul mobil pentru a deschide această pagină de locații.</p>
-
-            <!-- QR Container -->
-            <div class="bg-champagne p-4 rounded-2xl border border-gold/20 inline-block mb-6 shadow-inner">
-                <div id="qrcode" class="flex justify-center"></div>
-            </div>
-
-            <p class="text-xs text-gray-400 mb-6 px-4">
-                Puteți descărca imaginea de mai sus și să o adăugați pe invitațiile tipărite.
-            </p>
-
-            <div class="flex gap-3">
-                <button onclick="downloadQR()" class="flex-1 py-3 bg-gold text-white rounded-xl font-medium shadow-md hover:bg-gold/90 transition flex items-center justify-center gap-2 text-sm">
-                    <i class="fa-solid fa-download"></i> Descarcă Cod QR
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="text-center text-xs text-warmGray py-6">
